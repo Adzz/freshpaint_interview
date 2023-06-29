@@ -1,13 +1,9 @@
 defmodule FreshpaintInterview do
-  @moduledoc """
-  Documentation for `FreshpaintInterview`.
-  """
-
   @optional "?"
 
   @doc """
   Patterns match exactly, so missing letters matter. A letter can be marked as optional
-  like so: ?a
+  with a question mark like so: a?
   """
   # These two cases are not strictly needed - if you remove them it all works. but they
   # short circuit which probably speeds things up in some cases.
@@ -29,6 +25,8 @@ defmodule FreshpaintInterview do
          [{:optional, optional_char}, {:required, optional_char} | rest_tokens],
          string
        ) do
+    # If we see an optional char followed by the same char required, we must see 1 or 2 of
+    # those characters exactly.
     case string do
       <<^optional_char::binary-size(1), ^optional_char::binary-size(1)>> ->
         match_pattern(rest_tokens, "")
@@ -51,6 +49,7 @@ defmodule FreshpaintInterview do
          [{:optional, optional_char}, {:optional, optional_char} | rest_tokens],
          string
        ) do
+    # If we see two optional chars, we can see 0, 1 or 2 occurrences of the character.
     case string do
       <<^optional_char::binary-size(1), ^optional_char::binary-size(1)>> ->
         match_pattern(rest_tokens, "")
@@ -92,9 +91,7 @@ defmodule FreshpaintInterview do
   end
 
   # If we have some tokens left but no string we have not matched...
-  defp match_pattern([_ | _], "") do
-    false
-  end
+  defp match_pattern([_ | _], ""), do: false
 
   defp tokenize("", tokens), do: Enum.reverse(tokens)
 

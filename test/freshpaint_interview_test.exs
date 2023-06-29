@@ -14,7 +14,10 @@ defmodule FreshpaintInterviewTest do
     # Added by me:
     {"a?a?", "aa"},
     {"a?a?", ""},
-    {"a?a?", "a"}
+    {"a?a?", "a"},
+    {"a?a?bcd", "abcd"},
+    {"a?a?bcd", "bcd"},
+    {"a?a?bcd", "aabcd"}
   ]
   @falsey_results [
     {"", "abc"},
